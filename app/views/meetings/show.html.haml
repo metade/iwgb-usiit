@@ -26,7 +26,9 @@
                 = button_to "I agree", create_vote_url,
                   params: { vote: { status: "agree" } }, class: "btn btn-success btn-sm mr-1"
                 = button_to "I sympathise", create_vote_url,
-                  params: { vote: { status: "sympathise" } }, class: "btn btn-danger btn-sm mr-1"
+                  params: { vote: { status: "sympathise" } }, class: "btn btn-info btn-sm mr-1"
+                = button_to "I disagree", create_vote_url,
+                  params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-sm mr-1"
                 = button_to "See result", create_vote_url,
                   params: { vote: { status: "abstain" } }, class: "btn btn-link btn-sm"
 
