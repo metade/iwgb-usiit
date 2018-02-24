@@ -1,7 +1,8 @@
 .container.mt-3
   %section.jumbotron.text-center
-    %h1= @branch.name
-    %h2= @meeting.time.to_s(:long_ordinal)
+    %h1.mb-3 Live Agenda: Propose your ideas below
+    %h3= @branch.name
+    %h4.mb-0= @meeting.time.to_s(:long_ordinal)
 
   %ul.list-group
     - @meeting.issues.each do |issue|
