@@ -1,16 +1,27 @@
-%h1 #{@branch.name} meeting #{@meeting.time}
+.container
+  %section.jumbotron.text-center
+    %h1= @branch.name
+    %h2= @meeting.time.to_s(:long_ordinal)
 
-%ul
-  - @meeting.issues.each do |issue|
-    %li
-      %h2= issue.name
-      - if issue.votes.where(session: session.id).any?
-        Voted!
-      - else
-        = simple_form_for issue.votes.new, url: [@branch, @meeting, issue, :votes] do |f|
-          = f.input :status, as: :radio_buttons, collection: Vote.statuses.keys
-          = f.submit "Vote"
+  %ul.list-group
+    - @meeting.issues.each do |issue|
+      %li.list-group-item
+        %h2= issue.name
+        - if issue.votes.where(session: session.id).any?
+          Voted!
+        - else
+          = simple_form_for issue.votes.new, url: [@branch, @meeting, issue, :votes] do |f|
+            = f.input :status, as: :radio_buttons, collection: Vote.statuses.keys
+            = f.submit "Vote"
 
-  = simple_form_for @new_issue, url: [@branch, @meeting, @new_issue] do |f|
-    = f.input :name
-    = f.submit
+%hr
+.container
+  .row.justify-content-center
+    .col-md-6
+      .card
+        .card-header
+          %h2.mb-0 Propose new issue
+        .card-body
+          = simple_form_for @new_issue, url: [@branch, @meeting, @new_issue] do |f|
+            = f.input :name, class: "form-control"
+            = f.submit "Submit", class: "btn btn-primary btn-lg"
