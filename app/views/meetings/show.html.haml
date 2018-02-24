@@ -2,4 +2,12 @@
 
 %ul
   - @meeting.issues.each do |issue|
-    %li= issue.name 
+    %li
+      %h2= issue.name
+      = simple_form_for issue.votes.new, url: [@branch, @meeting, issue, :votes] do |f|
+        = f.input :status, as: :radio_buttons, collection: Vote.statuses.keys
+        = f.submit "Vote"
+
+  = simple_form_for @new_issue, url: [@branch, @meeting, @new_issue] do |f|
+    = f.input :name
+    = f.submit
