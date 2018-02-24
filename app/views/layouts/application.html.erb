@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Iwgb</title>
+    <title>IWGB</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,11 +9,14 @@
   </head>
 
   <body>
+    <div class="text-center mt-3">
+      <%= image_tag("logo.png", width: 150) %>
+    </div>
     <%= yield %>
     <footer class="footer text-muted">
       <hr>
       <div class="container small">
-        <p>About</p>
+        <p><%= image_tag("logo_footer.png", width: 100, alt: "IWGB") %></p>
       </div>
     </footer>
   </body>
