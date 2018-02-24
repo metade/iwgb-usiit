@@ -12,16 +12,16 @@
             %h2= issue.name
           .col-lg-4.text-lg-center
             - vote = issue.votes.find_by(session: session.id)
-            - if vote
-              - value = issue.vote_result
-              .progress.w-100.mb-1
-                .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-                  Agreed
-                .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{100-value}%;" }
-                  Sympathised
-              .small #{issue.vote_count} voted
-              = button_to "Recast my vote", [@branch, @meeting, issue, vote], method: :delete, class: "btn btn-link btn-sm"
-            - else
+            - value = issue.vote_result
+            .progress.w-100.mb-1
+              .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+                Agreed
+              .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{100-value}%;" }
+                Sympathised
+            .small #{issue.vote_count} voted
+            = button_to "Recast my vote", [@branch, @meeting, issue, vote], method: :delete, class: "btn btn-link btn-sm" if vote
+
+            - if vote.nil?
               - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
               .d-flex.justify-content-end
                 = button_to "I agree", create_vote_url,
@@ -30,8 +30,8 @@
                   params: { vote: { status: "sympathise" } }, class: "btn btn-info btn-sm mr-1"
                 = button_to "I disagree", create_vote_url,
                   params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-sm mr-1"
-                = button_to "See result", create_vote_url,
-                  params: { vote: { status: "abstain" } }, class: "btn btn-link btn-sm"
+                -# = button_to "See result", create_vote_url,
+                -#   params: { vote: { status: "abstain" } }, class: "btn btn-link btn-sm"
 
 .container.mt-3
   .row.justify-content-center
