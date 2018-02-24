@@ -6,13 +6,27 @@
   %ul.list-group
     - @meeting.issues.each do |issue|
       %li.list-group-item
-        %h2= issue.name
-        - if issue.votes.where(session: session.id).any?
-          Voted!
-        - else
-          = simple_form_for issue.votes.new, url: [@branch, @meeting, issue, :votes] do |f|
-            = f.input :status, as: :radio_buttons, collection: Vote.statuses.keys
-            = f.submit "Vote"
+        .row
+          .col-md-8
+            %h2= issue.name
+          .col-md-4.text-center
+            - if issue.votes.where(session: session.id).any?
+              - value = issue.vote_result
+              .progress.w-100.mb-1
+                .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+                  Agreed
+                .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{100-value}%;" }
+                  Sympathised
+              .small #{issue.vote_count} voted
+            - else
+              - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
+              .d-flex.justify-content-end
+                = button_to "I agree", create_vote_url,
+                  params: { vote: { status: "agree" } }, class: "btn btn-success btn-sm mr-1"
+                = button_to "I sympathise", create_vote_url,
+                  params: { vote: { status: "sympathise" } }, class: "btn btn-danger btn-sm mr-1"
+                = button_to "See result", create_vote_url,
+                  params: { vote: { status: "abstain" } }, class: "btn btn-link btn-sm"
 
 %hr
 .container
@@ -24,4 +38,4 @@
         .card-body
           = simple_form_for @new_issue, url: [@branch, @meeting, @new_issue] do |f|
             = f.input :name, class: "form-control"
-            = f.submit "Submit", class: "btn btn-primary btn-lg"
+            = f.submit "Submit", class: "btn btn-primary btn-block"
