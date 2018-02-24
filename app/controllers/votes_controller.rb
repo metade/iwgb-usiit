@@ -11,6 +11,13 @@ class VotesController < ApplicationController
   private
 
   def vote_params
-    params.require(:vote).permit(:status)
+    params.require(:vote).permit(:status).merge(session: session_id)
+  end
+
+  def session_id
+    return session.id if session.id.present?
+
+    session[:voted] = true
+    session.id
   end
 end
