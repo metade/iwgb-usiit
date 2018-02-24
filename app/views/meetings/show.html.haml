@@ -7,9 +7,9 @@
     - @meeting.issues.each do |issue|
       %li.list-group-item
         .row
-          .col-md-8
+          .col-lg-8
             %h2= issue.name
-          .col-md-4.text-center
+          .col-lg-4.text-lg-center
             - vote = issue.votes.find_by(session: session.id)
             - if vote
               - value = issue.vote_result

@@ -1,5 +1,19 @@
 # README
 
+usiit
+
+union's issue identifying tool
+
+Comments
+Disagrees
+Companies
+Lock meeting after it's happened
+Save data - excel?
+URNs for everything
+Home page with explanation
+
+Live Agenda: Proposed idea here
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
