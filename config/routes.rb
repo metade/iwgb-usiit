@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :branches, only: %i[index show] do
     resources :meetings, only: %i[index show] do
       resources :issues, only: %i[create] do
+        resources :comments, only: %i[create]
         resources :votes, only: %i[create destroy]
       end
     end
