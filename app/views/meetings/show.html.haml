@@ -1,0 +1,5 @@
+%h1 #{@branch.name} meeting #{@meeting.time}
+
+%ul
+  - @meeting.issues.each do |issue|
+    %li= issue.name 
