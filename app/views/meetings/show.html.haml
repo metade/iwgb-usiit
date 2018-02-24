@@ -10,7 +10,8 @@
           .col-md-8
             %h2= issue.name
           .col-md-4.text-center
-            - if issue.votes.where(session: session.id).any?
+            - vote = issue.votes.find_by(session: session.id)
+            - if vote
               - value = issue.vote_result
               .progress.w-100.mb-1
                 .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
@@ -18,6 +19,7 @@
                 .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{100-value}%;" }
                   Sympathised
               .small #{issue.vote_count} voted
+              = button_to "Recast my vote", [@branch, @meeting, issue, vote], method: :delete, class: "btn btn-link btn-sm"
             - else
               - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
               .d-flex.justify-content-end
@@ -28,8 +30,7 @@
                 = button_to "See result", create_vote_url,
                   params: { vote: { status: "abstain" } }, class: "btn btn-link btn-sm"
 
-%hr
-.container
+.container.mt-3
   .row.justify-content-center
     .col-md-6
       .card
