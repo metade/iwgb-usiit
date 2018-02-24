@@ -10,20 +10,26 @@
         .row
           .col-lg-8
             %h2= issue.name
-          .col-lg-4.text-lg-center
+          .col-lg-4.text-center
             - vote = issue.votes.find_by(session: session.id)
-            - value = issue.vote_result
-            .progress.w-100.mb-1
-              .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-                Agreed
-              .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{100-value}%;" }
-                Sympathised
-            .small #{issue.vote_count} voted
+            - if issue.vote_count.positive?
+              .progress.w-100.mb-1
+                - value = issue.vote_result(:agree)
+                .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+                  Agreed
+                - value = issue.vote_result(:sympathise)
+                .progress-bar.bg-info{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+                  Sympathised
+                - value = issue.vote_result(:disagree)
+                .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+                  Disagreed
+
+            %p.small #{issue.vote_count} votes
             = button_to "Recast my vote", [@branch, @meeting, issue, vote], method: :delete, class: "btn btn-link btn-sm" if vote
 
             - if vote.nil?
               - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
-              .d-flex.justify-content-end
+              .d-flex.justify-content-between
                 = button_to "I agree", create_vote_url,
                   params: { vote: { status: "agree" } }, class: "btn btn-success btn-sm mr-1"
                 = button_to "I sympathise", create_vote_url,
