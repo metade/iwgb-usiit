@@ -1,6 +1,6 @@
 class Issue < ApplicationRecord
   belongs_to :meeting
-  has_many :votes
+  has_many :votes, dependent: :destroy
 
   def vote_count
     votes.where(status: %i[agree sympathise]).count
