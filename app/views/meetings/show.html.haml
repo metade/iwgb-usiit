@@ -36,7 +36,7 @@
             = render "issues/vote", issue: issue, vote: vote if @meeting.live?
           .col-lg-4.text-center.pt-4.pt-lg-0
             .mt-1.text-center.chart-container
-              = pie_chart(issue.vote_chart, legend: vote.present? ? "bottom" : false, height: "120px", width: "100px") if issue.votes.any?
+              = pie_chart(issue.vote_chart, legend: "bottom", height: "120px", width: "100px") if issue.votes.any?
               %p.small #{issue.vote_count} votes
 
         - if @meeting.live?
