@@ -26,21 +26,25 @@
     - vote = issue.votes.find_by(session: session.id)
     .card.mb-4{ id: "issue-#{issue.id}" }
       .card-body
-        .row
+        .row.align-items-top
           .col-lg-8
             - if issue.company.present?
               %span.small Proposed by a worker from
               %span.badge.badge-light= issue.company.name
-            %h2
-              = link_to issue.name, "#issues-#{issue.to_param}-footer",
-                role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-comments-#{issue.to_param}" }
+            %h2= issue.name
 
-          .col-lg-4.text-center.pt-4.pt-lg-0
             = render "issues/vote", issue: issue, vote: vote if @meeting.live?
-
+          .col-lg-4.text-center.pt-4.pt-lg-0
             .mt-1.text-center.chart-container
-              = pie_chart(issue.vote_chart, legend: vote.present? ? "bottom" : false, height: "150px", width: "100px") if issue.votes.any?
+              = pie_chart(issue.vote_chart, legend: vote.present? ? "bottom" : false, height: "120px", width: "100px") if issue.votes.any?
               %p.small #{issue.vote_count} votes
+
+        %p.mb-0
+          = link_to "#issues-#{issue.to_param}-footer",
+            role: "button", data: { toggle: "collapse" },
+            aria: { expanded: false, controls: "issues-comments-#{issue.to_param}" } do
+            Join the discussion
+            %small= "(#{issue.comments.size} comments)" if issue.comments.any?
 
       .card-footer{ id: "issues-#{issue.to_param}-footer", class: @meeting.live? ? "collapse" : "" }
         .row
@@ -50,5 +54,5 @@
             %h6 Vote breakdown
             - issue.vote_companies.each do |company, count|
               .badge.badge-light #{company} (#{count})
-          
+
 = render "issues/propose" if @meeting.live?
