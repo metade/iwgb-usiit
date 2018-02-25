@@ -11,9 +11,9 @@
 - if meeting.live?
   - if vote.present?
     = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
-      .input-group
+      .input-group.mb-4.mb-lg-1
         = f.text_field :content, class: "form-control", placeholder: "Write a comment"
         .input-group-append
           = f.submit "Submit", class: "btn btn-primary"
   - else
-    Please vote to have your say.
+    %p Please vote to have your say.

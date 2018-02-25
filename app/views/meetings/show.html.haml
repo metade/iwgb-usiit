@@ -58,8 +58,9 @@
           .col-lg-8
             = render "issues/comments", issue: issue, meeting: @meeting, vote: vote
           .col-lg-4
-            %h6 Vote breakdown
-            - issue.vote_companies.each do |company, count|
-              .badge.badge-light #{company} (#{count})
+            - if issue.votes.any?
+              %h6 Vote breakdown
+              - issue.vote_companies.each do |company, count|
+                .badge.badge-light #{company} (#{count})
 
 = render "issues/propose" if @meeting.live?
