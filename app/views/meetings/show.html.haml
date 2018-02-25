@@ -39,12 +39,13 @@
               = pie_chart(issue.vote_chart, legend: vote.present? ? "bottom" : false, height: "120px", width: "100px") if issue.votes.any?
               %p.small #{issue.vote_count} votes
 
-        %p.mb-0
-          = link_to "#issues-#{issue.to_param}-footer",
-            role: "button", data: { toggle: "collapse" },
-            aria: { expanded: false, controls: "issues-comments-#{issue.to_param}" } do
-            Join the discussion
-            %small= "(#{issue.comments.size} comments)" if issue.comments.any?
+        - if @meeting.live?
+          %p.mb-0
+            = link_to "#issues-#{issue.to_param}-footer",
+              role: "button", data: { toggle: "collapse" },
+              aria: { expanded: false, controls: "issues-comments-#{issue.to_param}" } do
+              Join the discussion
+              %small= "(#{issue.comments.size} comments)" if issue.comments.any?
 
       .card-footer{ id: "issues-#{issue.to_param}-footer", class: @meeting.live? ? "collapse" : "" }
         .row
