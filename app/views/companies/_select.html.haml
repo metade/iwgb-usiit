@@ -2,7 +2,7 @@
   .col-md-5.text-center
     - if current_company.present?
       %p.lead
-        You are representing
+        You've told us you work for
         %strong= current_company.name
         %small
           = link_to "(Edit)", "#company-form",
@@ -12,6 +12,7 @@
         = label_tag :company_id, "Who do you represent?"
         .input-group
           = select_tag :company_id, options_for_select(Company.for_select),
+            onchange: "this.form.submit();",
             class: "form-control", include_blank: "Pick a company", selected: session[:company_id]
           .input-group-append
             = submit_tag "Update", class: "btn btn-primary btn-block"

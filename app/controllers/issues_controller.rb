@@ -4,7 +4,11 @@ class IssuesController < ApplicationController
     @meeting = @branch.meetings.find(params[:meeting_id])
     @issue = @meeting.issues.new(issue_params)
 
-    redirect_to [@branch, @meeting] if @issue.save
+    if @issue.save
+      redirect_to(
+        branch_meeting_path(@branch, @meeting, anchor: "issue-#{@issue.id}")
+      )
+    end
   end
 
   private
