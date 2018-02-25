@@ -16,3 +16,6 @@
 
 //= require jquery/dist/jquery.js
 //= require bootstrap/dist/js/bootstrap.js
+
+//= require Chart.bundle
+//= require chartkick

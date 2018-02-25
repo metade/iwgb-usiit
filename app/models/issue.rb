@@ -10,6 +10,10 @@ class Issue < ApplicationRecord
     votes.where(status: %i[agree disagree sympathise]).count
   end
 
+  def vote_chart
+    votes.group(:status).count
+  end
+
   def vote_result(status)
     (votes.where(status: status).count / vote_count.to_f) * 100
   end

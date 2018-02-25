@@ -33,17 +33,19 @@
                 = button_to "I disagree", create_vote_url,
                   params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-sm mr-1"
 
-            - if issue.vote_count.positive?
-              .progress.w-100.mb-1
-                - value = issue.vote_result(:agree)
-                .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-                  Agreed
-                - value = issue.vote_result(:sympathise)
-                .progress-bar.bg-info{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-                  Sympathised
-                - value = issue.vote_result(:disagree)
-                .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-                  Disagreed
+            = pie_chart(issue.vote_chart, legend: false) if issue.votes.any?
+
+            -# - if issue.vote_count.positive?
+            -#   .progress.w-100.mb-1
+            -#     - value = issue.vote_result(:agree)
+            -#     .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+            -#       Agreed
+            -#     - value = issue.vote_result(:sympathise)
+            -#     .progress-bar.bg-info{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+            -#       Sympathised
+            -#     - value = issue.vote_result(:disagree)
+            -#     .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
+            -#       Disagreed
 
             %p.small #{issue.vote_count} votes
             = button_to "Recast my vote", [@branch, @meeting, issue, vote], method: :delete, class: "btn btn-link btn-sm" if vote

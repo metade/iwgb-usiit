@@ -63,6 +63,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.3)
     byebug (10.0.0)
+    chartkick (2.2.5)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -240,6 +241,7 @@ DEPENDENCIES
   activeadmin
   bootsnap (>= 1.1.0)
   byebug
+  chartkick
   devise
   haml
   jbuilder (~> 2.5)
