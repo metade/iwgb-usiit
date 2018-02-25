@@ -5,7 +5,10 @@ class VotesController < ApplicationController
     @vote = @issue.votes.new(vote_params)
 
     if @vote.save
-      redirect_to [@branch, @meeting], notice: 'Vote cast'
+      redirect_to(
+        branch_meeting_path(@branch, @meeting, anchor: "issue-#{@issue.id}"),
+        notice: 'Vote cast'
+      )
     else
       redirect_to(
         [@branch, @meeting], notice: @vote.errors.full_messages.to_sentence
