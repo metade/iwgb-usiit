@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_25_091049) do
+ActiveRecord::Schema.define(version: 2018_02_25_103351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 2018_02_25_091049) do
     t.bigint "issue_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_comments_on_company_id"
     t.index ["issue_id"], name: "index_comments_on_issue_id"
   end
 
@@ -71,6 +73,8 @@ ActiveRecord::Schema.define(version: 2018_02_25_091049) do
     t.integer "meeting_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_issues_on_company_id"
     t.index ["meeting_id"], name: "index_issues_on_meeting_id"
   end
 
@@ -88,8 +92,13 @@ ActiveRecord::Schema.define(version: 2018_02_25_091049) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "session", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_votes_on_company_id"
     t.index ["issue_id"], name: "index_votes_on_issue_id"
   end
 
+  add_foreign_key "comments", "companies"
   add_foreign_key "comments", "issues"
+  add_foreign_key "issues", "companies"
+  add_foreign_key "votes", "companies"
 end

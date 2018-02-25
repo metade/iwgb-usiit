@@ -10,6 +10,6 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:name)
+    params.require(:issue).permit(:name).merge(company: current_company)
   end
 end

@@ -16,7 +16,9 @@ class VotesController < ApplicationController
   private
 
   def vote_params
-    params.require(:vote).permit(:status).merge(session: session_id)
+    params
+      .require(:vote).permit(:status)
+      .merge(session: session_id, company: current_company)
   end
 
   def session_id

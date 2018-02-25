@@ -27,9 +27,21 @@
       %li.list-group-item
         .row
           .col-lg-8
+            - if issue.company.present?
+              .badge.badge-light= issue.company.name
             %h2= issue.name
           .col-lg-4.text-center.pt-4.pt-lg-0
             - vote = issue.votes.find_by(session: session.id)
+            - if vote.nil?
+              - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
+              .d-flex.justify-content-between.mb-4
+                = button_to "I agree", create_vote_url,
+                  params: { vote: { status: "agree" } }, class: "btn btn-success btn-sm mr-1"
+                = button_to "I sympathise", create_vote_url,
+                  params: { vote: { status: "sympathise" } }, class: "btn btn-info btn-sm mr-1"
+                = button_to "I disagree", create_vote_url,
+                  params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-sm mr-1"
+
             - if issue.vote_count.positive?
               .progress.w-100.mb-1
                 - value = issue.vote_result(:agree)
@@ -45,17 +57,9 @@
             %p.small #{issue.vote_count} votes
             = button_to "Recast my vote", [@branch, @meeting, issue, vote], method: :delete, class: "btn btn-link btn-sm" if vote
 
-            - if vote.nil?
-              - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
-              .d-flex.justify-content-between
-                = button_to "I agree", create_vote_url,
-                  params: { vote: { status: "agree" } }, class: "btn btn-success btn-sm mr-1"
-                = button_to "I sympathise", create_vote_url,
-                  params: { vote: { status: "sympathise" } }, class: "btn btn-info btn-sm mr-1"
-                = button_to "I disagree", create_vote_url,
-                  params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-sm mr-1"
-                -# = button_to "See result", create_vote_url,
-                -#   params: { vote: { status: "abstain" } }, class: "btn btn-link btn-sm"
+            - issue.vote_companies.each do |company, count|
+              .badge.badge-light #{company} (#{count})
+
           .col-lg-12.pt-4.pb-4.pt-lg-0.pb-lg-0
             = render "issues/comments", issue: issue
 

@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content).merge(company: current_company)
   end
 
   def setup_parent_variables
