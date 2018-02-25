@@ -4,6 +4,24 @@
     %h3= @branch.name
     %h4.mb-0= @meeting.time.to_s(:long_ordinal)
 
+  .row.justify-content-center.mb-4
+    .col-md-5.text-center
+      - if current_company.present?
+        %p.lead
+          You are representing
+          %strong= current_company.name
+          %small
+            = link_to "(Edit)", "#company-form",
+              role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "company-form" }
+      %div{ id: "company-form", class: current_company.present? ? "collapse" : "" }
+        = form_tag session_path, method: :patch do |f|
+          = label_tag :company_id, "Who do you represent?"
+          .input-group
+            = select_tag :company_id, options_for_select(Company.for_select),
+              class: "form-control", include_blank: "Pick a company", selected: session[:company_id]
+            .input-group-append
+              = submit_tag "Update", class: "btn btn-primary btn-block"
+
   %ul.list-group
     - @meeting.issues.each do |issue|
       %li.list-group-item
