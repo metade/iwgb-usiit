@@ -1,7 +1,7 @@
 .card-body
   - if meeting.live?
     .small
-      = link_to "Discuss", "#issues-#{issue.to_param}",
+      = link_to "Discuss", "#issues-comments-#{issue.to_param}",
         role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-comments-#{issue.to_param}" }
       - if issue.comments.size.positive?
         (#{issue.comments.size} comments)
