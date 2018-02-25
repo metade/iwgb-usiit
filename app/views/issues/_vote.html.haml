@@ -1,12 +1,15 @@
 - if vote.nil?
   - create_vote_url = branch_meeting_issue_votes_path(issue.branch, issue.meeting, issue)
-  .d-flex.flex-wrap
-    = button_to "I agree", create_vote_url,
-      params: { vote: { status: "agree" } }, class: "btn btn-success btn-lg mb-1 mr-1"
-    = button_to "I sympathise", create_vote_url,
-      params: { vote: { status: "sympathise" } }, class: "btn btn-info btn-lg mb-1 mr-1"
-    = button_to "I disagree", create_vote_url,
-      params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-lg mb-1 mr-1"
+  .row
+    .col-md-4
+      = button_to "I agree", create_vote_url,
+        params: { vote: { status: "agree" } }, class: "btn btn-success btn-lg btn-block mb-1"
+    .col-md-4
+      = button_to "I sympathise", create_vote_url,
+        params: { vote: { status: "sympathise" } }, class: "btn btn-info btn-lg btn-block mb-1"
+    .col-md-4
+      = button_to "I disagree", create_vote_url,
+        params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-lg btn-block mb-1"
 - else
   .d-flex.align-items-center
     %p.lead.mb-0 You #{vote.status}.
