@@ -9,6 +9,8 @@
     - issue.comments.order("created_at").each do |comment|
       %tr
         %td= comment.content
+        %td
+          .badge.badge-light= comment.company&.name 
         %td.small= comment.created_at.to_s(:short)
   = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
     .input-group

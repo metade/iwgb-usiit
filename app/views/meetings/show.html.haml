@@ -28,7 +28,8 @@
         .row
           .col-lg-8
             - if issue.company.present?
-              .badge.badge-light= issue.company.name
+              %span.small Proposed by a representative of
+              %span.badge.badge-light= issue.company.name
             %h2= issue.name
           .col-lg-4.text-center.pt-4.pt-lg-0
             - vote = issue.votes.find_by(session: session.id)
