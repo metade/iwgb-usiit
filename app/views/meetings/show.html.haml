@@ -42,9 +42,13 @@
               = pie_chart(issue.vote_chart, legend: vote.present? ? "bottom" : false, height: "150px", width: "100px") if issue.votes.any?
               %p.small #{issue.vote_count} votes
 
+      .card-footer{ id: "issues-#{issue.to_param}-footer", class: @meeting.live? ? "collapse" : "" }
+        .row
+          .col-lg-8
+            = render "issues/comments", issue: issue, meeting: @meeting, vote: vote
+          .col-lg-4
+            %h6 Vote breakdown
             - issue.vote_companies.each do |company, count|
               .badge.badge-light #{company} (#{count})
-      .card-footer{ id: "issues-#{issue.to_param}-footer", class: @meeting.live? ? "collapse" : "" }
-        = render "issues/comments", issue: issue, meeting: @meeting, vote: vote
-
+          
 = render "issues/propose" if @meeting.live?
