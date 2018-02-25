@@ -2,10 +2,10 @@
   .col-md-5.text-center
     - if current_company.present?
       %p.lead
-        You've told us you work for
+        You work for
         %strong= current_company.name
         %small
-          = link_to "(Edit)", "#company-form",
+          = link_to "(Change)", "#company-form",
             role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "company-form" }
     %div{ id: "company-form", class: current_company.present? ? "collapse" : "" }
       = form_tag session_path, method: :patch do |f|
