@@ -1,6 +1,8 @@
-= link_to "Discuss", "#issues-#{issue.to_param}",
-  class: "small",
-  role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-#{issue.to_param}" }
+.small
+  = link_to "Discuss", "#issues-#{issue.to_param}",
+    role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-#{issue.to_param}" }
+  - if issue.comments.size.positive?
+    (#{issue.comments.size} comments)
 
 .collapse{ id: "issues-#{issue.to_param}" }
   %table.table.table-sm.mt-3
