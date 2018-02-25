@@ -4,7 +4,11 @@ class VotesController < ApplicationController
   def create
     @vote = @issue.votes.new(vote_params)
 
-    redirect_to [@branch, @meeting] if @vote.save
+    if @vote.save
+      redirect_to [@branch, @meeting], notice: "Vote cast"
+    else
+      redirect_to [@branch, @meeting], notice: @vote.errors.full_messages.inspect
+    end
   end
 
   def destroy
