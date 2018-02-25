@@ -1,17 +1,17 @@
 # README
 
-usiit
+usiit - union's issue identifying tool
 
-union's issue identifying tool
+## TODO
 
-Comments
-Disagrees
-Companies
-Lock meeting after it's happened
-Save data - excel?
-URNs for everything
-Home page with explanation
-Order by number of votes
+- [x] Comments
+- [x] Disagrees
+- [ ] Companies
+- [ ] Lock meeting after it's happened
+- [ ] Save data - excel?
+- [ ] URNs for everything
+- [ ] Home page with explanation
+- [ ] Order by number of votes
 
 Live Agenda: Proposed idea here
 
