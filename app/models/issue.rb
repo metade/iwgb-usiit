@@ -8,13 +8,13 @@ class Issue < ApplicationRecord
 
   scope :order_by_votes, lambda {
     select('issues.*, COUNT(votes.id) AS votes_total')
-      .joins(:votes)
+      .joins("left join votes on votes.issue_id = issues.id")
       .group('issues.id')
       .order('votes_total DESC')
   }
   scope :order_by_comments, lambda {
     select('issues.*, COUNT(comments.id) AS comments_total')
-      .joins(:comments)
+      .joins("left join comments on comments.issue_id = issues.id")
       .group('issues.id')
       .order('comments_total DESC')
   }
