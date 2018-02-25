@@ -7,12 +7,11 @@ usiit - union's issue identifying tool
 - [x] Comments
 - [x] Disagrees
 - [x] Companies
-- [ ] Lock meeting after it's happened
-- [ ] Ordering
+- [x] Lock meeting after it's happened
+- [x] Ordering
 - [ ] Save data - excel?
 - [ ] URNs for everything
 - [ ] Home page with explanation
-- [ ] Order by number of votes
 
 Live Agenda: Proposed idea here
 

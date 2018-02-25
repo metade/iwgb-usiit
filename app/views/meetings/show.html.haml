@@ -31,38 +31,20 @@
             - if issue.company.present?
               %span.small Proposed by a worker from
               %span.badge.badge-light= issue.company.name
-            %h2= issue.name
+            %h2
+              = link_to issue.name, "#issues-#{issue.to_param}-footer",
+                role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-comments-#{issue.to_param}" }
+
           .col-lg-4.text-center.pt-4.pt-lg-0
-            - if @meeting.live? && vote.nil?
-              - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
-              .d-flex.justify-content-between.mb-4
-                = button_to "I agree", create_vote_url,
-                  params: { vote: { status: "agree" } }, class: "btn btn-success btn-sm mr-1"
-                = button_to "I sympathise", create_vote_url,
-                  params: { vote: { status: "sympathise" } }, class: "btn btn-info btn-sm mr-1"
-                = button_to "I disagree", create_vote_url,
-                  params: { vote: { status: "disagree" } }, class: "btn btn-danger btn-sm mr-1"
+            = render "issues/vote", issue: issue, vote: vote if @meeting.live?
 
-            = pie_chart(issue.vote_chart, legend: false) if issue.votes.any?
-
-            -# - if issue.vote_count.positive?
-            -#   .progress.w-100.mb-1
-            -#     - value = issue.vote_result(:agree)
-            -#     .progress-bar.bg-success{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-            -#       Agreed
-            -#     - value = issue.vote_result(:sympathise)
-            -#     .progress-bar.bg-info{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-            -#       Sympathised
-            -#     - value = issue.vote_result(:disagree)
-            -#     .progress-bar.bg-danger{ role: "progressbar", aria: { valuenow: value, valuemin: 0, valuemax: 100 }, style: "width: #{value}%;" }
-            -#       Disagreed
-
-            %p.small #{issue.vote_count} votes
-            = button_to "Recast my vote", [@branch, @meeting, issue, vote], method: :delete, class: "btn btn-link btn-sm" if vote
+            .mt-1.text-center.chart-container
+              = pie_chart(issue.vote_chart, legend: vote.present? ? "bottom" : false, height: "150px", width: "100px") if issue.votes.any?
+              %p.small #{issue.vote_count} votes
 
             - issue.vote_companies.each do |company, count|
               .badge.badge-light #{company} (#{count})
-
-      = render "issues/comments", issue: issue, meeting: @meeting, vote: vote
+      .card-footer{ id: "issues-#{issue.to_param}-footer", class: @meeting.live? ? "collapse" : "" }
+        = render "issues/comments", issue: issue, meeting: @meeting, vote: vote
 
 = render "issues/propose" if @meeting.live?
