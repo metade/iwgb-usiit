@@ -1,26 +1,16 @@
 .container.mt-3
   %section.jumbotron.text-center
-    %h1.mb-3 Live Agenda: Propose your ideas below
+    - if @meeting.live?
+      %h1.mb-3 Live Agenda: Propose your ideas below
+    - else
+      %h1.mb-3 Meeting Agenda
     %h3= @branch.name
-    %h4.mb-0= @meeting.time.to_s(:long_ordinal)
+    %h4= @meeting.time.to_s(:long_ordinal)
 
-  .row.justify-content-center.mb-4
-    .col-md-5.text-center
-      - if current_company.present?
-        %p.lead
-          You are representing
-          %strong= current_company.name
-          %small
-            = link_to "(Edit)", "#company-form",
-              role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "company-form" }
-      %div{ id: "company-form", class: current_company.present? ? "collapse" : "" }
-        = form_tag session_path, method: :patch do |f|
-          = label_tag :company_id, "Who do you represent?"
-          .input-group
-            = select_tag :company_id, options_for_select(Company.for_select),
-              class: "form-control", include_blank: "Pick a company", selected: session[:company_id]
-            .input-group-append
-              = submit_tag "Update", class: "btn btn-primary btn-block"
+    - if @meeting.over?
+      %p.lead.mb-0 Issues and comments are now locked
+
+  = render "companies/select" if @meeting.live?
 
   %ul.list-group
     - @meeting.issues.each do |issue|
@@ -33,7 +23,7 @@
             %h2= issue.name
           .col-lg-4.text-center.pt-4.pt-lg-0
             - vote = issue.votes.find_by(session: session.id)
-            - if vote.nil?
+            - if @meeting.live? && vote.nil?
               - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
               .d-flex.justify-content-between.mb-4
                 = button_to "I agree", create_vote_url,
@@ -62,15 +52,6 @@
               .badge.badge-light #{company} (#{count})
 
           .col-lg-12.pt-4.pb-4.pt-lg-0.pb-lg-0
-            = render "issues/comments", issue: issue
+            = render "issues/comments", issue: issue, meeting: @meeting
 
-.container.mt-3
-  .row.justify-content-center
-    .col-md-6
-      .card
-        .card-header
-          %h2.mb-0 Propose new issue
-        .card-body
-          = simple_form_for @new_issue, url: [@branch, @meeting, @new_issue] do |f|
-            = f.input :name, class: "form-control"
-            = f.submit "Submit", class: "btn btn-primary btn-block"
+= render "issues/propose" if @meeting.live?

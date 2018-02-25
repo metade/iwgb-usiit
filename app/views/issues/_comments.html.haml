@@ -1,19 +1,24 @@
-.small
-  = link_to "Discuss", "#issues-#{issue.to_param}",
-    role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-#{issue.to_param}" }
-  - if issue.comments.size.positive?
-    (#{issue.comments.size} comments)
+.mt-4
+  - if meeting.live?
+    .small
+      = link_to "Discuss", "#issues-#{issue.to_param}",
+        role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-#{issue.to_param}" }
+      - if issue.comments.size.positive?
+        (#{issue.comments.size} comments)
+  - else
+    %h6 Discussion
 
-.collapse{ id: "issues-#{issue.to_param}" }
-  %table.table.table-sm.mt-3
-    - issue.comments.order("created_at").each do |comment|
-      %tr
-        %td= comment.content
-        %td
-          .badge.badge-light= comment.company&.name 
-        %td.small= comment.created_at.to_s(:short)
-  = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
-    .input-group
-      = f.text_field :content, class: "form-control", placeholder: "Write a comment"
-      .input-group-append
-        = f.submit "Submit", class: "btn btn-primary"
+  .div{ id: "issues-#{issue.to_param}", class: meeting.live? ? "collapse" : "" }
+    %table.table.table-sm.mt-3
+      - issue.comments.order("created_at").each do |comment|
+        %tr
+          %td= comment.content
+          %td
+            .badge.badge-light= comment.company&.name
+          %td.small= comment.created_at.to_s(:short)
+    - if meeting.live?
+      = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
+        .input-group
+          = f.text_field :content, class: "form-control", placeholder: "Write a comment"
+          .input-group-append
+            = f.submit "Submit", class: "btn btn-primary"

@@ -1,0 +1,10 @@
+.container.mt-3
+  .row.justify-content-center
+    .col-md-6
+      .card
+        .card-header
+          %h2.mb-0 Propose new issue
+        .card-body
+          = simple_form_for @new_issue, url: [@branch, @meeting, @new_issue] do |f|
+            = f.input :name, class: "form-control"
+            = f.submit "Submit", class: "btn btn-primary btn-block"

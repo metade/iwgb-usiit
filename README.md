@@ -6,8 +6,9 @@ usiit - union's issue identifying tool
 
 - [x] Comments
 - [x] Disagrees
-- [ ] Companies
+- [x] Companies
 - [ ] Lock meeting after it's happened
+- [ ] Ordering
 - [ ] Save data - excel?
 - [ ] URNs for everything
 - [ ] Home page with explanation
