@@ -24,8 +24,10 @@ class Issue < ApplicationRecord
   end
 
   def vote_chart
-    { 'agree' => 0, 'sympathise' => 0, 'disagree' => 0 }
-      .merge(votes.group(:status).count)
+    @vote_chart ||= begin
+      { 'agree' => 0, 'sympathise' => 0, 'disagree' => 0 }
+        .merge(votes.group(:status).count)
+    end
   end
 
   def vote_result(status)
