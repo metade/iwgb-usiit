@@ -13,6 +13,6 @@
         .input-group
           = select_tag :company_id, options_for_select(Company.for_select),
             onchange: "this.form.submit();",
-            class: "form-control", include_blank: "Pick a company", selected: session[:company_id]
+            class: "form-control form-control-lg", include_blank: "Pick a company", selected: session[:company_id]
           .input-group-append
-            = submit_tag "Update", class: "btn btn-primary btn-block"
+            = submit_tag "Update", class: "btn btn-primary btn-block btn-lg"
