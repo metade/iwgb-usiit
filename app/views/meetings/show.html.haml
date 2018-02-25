@@ -10,6 +10,7 @@
         .row
           .col-lg-8
             %h2= issue.name
+            = render "issues/comments", issue: issue
           .col-lg-4.text-center
             - vote = issue.votes.find_by(session: session.id)
             - if issue.vote_count.positive?
@@ -39,7 +40,6 @@
                 -# = button_to "See result", create_vote_url,
                 -#   params: { vote: { status: "abstain" } }, class: "btn btn-link btn-sm"
 
-        = render "issues/comments", issue: issue
 .container.mt-3
   .row.justify-content-center
     .col-md-6

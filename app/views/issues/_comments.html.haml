@@ -3,12 +3,13 @@
   role: "button", data: { toggle: "collapse" }, aria: { expanded: false, controls: "issues-#{issue.to_param}" }
 
 .collapse{ id: "issues-#{issue.to_param}" }
-  = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
-    = f.input :content, label: "Add a comment"
-    = f.submit "Submit", class: "btn btn-primary"
-
   %table.table.table-sm.mt-3
-    - issue.comments.order("created_at desc").each do |comment|
+    - issue.comments.order("created_at").each do |comment|
       %tr
         %td= comment.content
         %td.small= comment.created_at.to_s(:short)
+  = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
+    .input-group
+      = f.text_field :content, class: "form-control", placeholder: "Write a comment"
+      .input-group-append
+        = f.submit "Submit", class: "btn btn-primary"
