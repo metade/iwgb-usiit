@@ -6,6 +6,19 @@ class Issue < ApplicationRecord
 
   delegate :branch, to: :meeting
 
+  scope :order_by_votes, lambda {
+    select('issues.*, COUNT(votes.id) AS votes_total')
+      .joins(:votes)
+      .group('issues.id')
+      .order('votes_total DESC')
+  }
+  scope :order_by_comments, lambda {
+    select('issues.*, COUNT(comments.id) AS comments_total')
+      .joins(:comments)
+      .group('issues.id')
+      .order('comments_total DESC')
+  }
+
   def vote_count
     votes.where(status: %i[agree disagree sympathise]).count
   end

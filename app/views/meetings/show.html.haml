@@ -12,7 +12,17 @@
 
   = render "companies/select" if @meeting.live?
 
-  - @meeting.issues.each do |issue|
+
+  .d-flex.justify-content-end.mb-1
+    .dropdown
+      %button.btn.btn-secondary.btn-sm.dropdown-toggle#orderby-button{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } }
+        Order by
+      .dropdown-menu.dropdown-menu-right.small{ "aria-labelledby": "#orderby-button" }
+        = link_to "Number of votes", { order: "votes" }, class: "dropdown-item"
+        = link_to "Number of comments", { order: "comments" }, class: "dropdown-item"
+        = link_to "Date", { order: "comments" }, class: "dropdown-item"
+
+  - @issues.each do |issue|
     - vote = issue.votes.find_by(session: session.id)
     .card.mb-4{ id: "issue-#{issue.id}" }
       .card-body
