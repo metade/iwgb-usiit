@@ -7,6 +7,6 @@ class Meeting < ApplicationRecord
   end
 
   def over?
-    time.past?
+    !live?
   end
 end

@@ -12,9 +12,9 @@
 
   = render "companies/select" if @meeting.live?
 
-  %ul.list-group
-    - @meeting.issues.each do |issue|
-      %li.list-group-item
+  - @meeting.issues.each do |issue|
+    .card.mb-4
+      .card-body
         .row
           .col-lg-8
             - if issue.company.present?
@@ -51,7 +51,6 @@
             - issue.vote_companies.each do |company, count|
               .badge.badge-light #{company} (#{count})
 
-          .col-lg-12.pt-4.pb-4.pt-lg-0.pb-lg-0
-            = render "issues/comments", issue: issue, meeting: @meeting
+      = render "issues/comments", issue: issue, meeting: @meeting
 
 = render "issues/propose" if @meeting.live?
