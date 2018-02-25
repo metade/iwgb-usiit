@@ -15,11 +15,14 @@
           %td= comment.content
           %td= comment.company&.name
           %td= comment.created_at.to_s(:short)
-  - else
+  - elsif meeting.over?
     No comments
   - if meeting.live?
-    = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
-      .input-group
-        = f.text_field :content, class: "form-control", placeholder: "Write a comment"
-        .input-group-append
-          = f.submit "Submit", class: "btn btn-primary"
+    - if vote.present?
+      = simple_form_for Comment.new, url: [issue.branch, issue.meeting, issue, :comments] do |f|
+        .input-group
+          = f.text_field :content, class: "form-control", placeholder: "Write a comment"
+          .input-group-append
+            = f.submit "Submit", class: "btn btn-primary"
+    - else
+      Please vote to have your say.

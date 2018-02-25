@@ -13,6 +13,7 @@
   = render "companies/select" if @meeting.live?
 
   - @meeting.issues.each do |issue|
+    - vote = issue.votes.find_by(session: session.id)
     .card.mb-4{ id: "issue-#{issue.id}" }
       .card-body
         .row
@@ -22,7 +23,6 @@
               %span.badge.badge-light= issue.company.name
             %h2= issue.name
           .col-lg-4.text-center.pt-4.pt-lg-0
-            - vote = issue.votes.find_by(session: session.id)
             - if @meeting.live? && vote.nil?
               - create_vote_url = branch_meeting_issue_votes_path(@branch, @meeting, issue)
               .d-flex.justify-content-between.mb-4
@@ -53,6 +53,6 @@
             - issue.vote_companies.each do |company, count|
               .badge.badge-light #{company} (#{count})
 
-      = render "issues/comments", issue: issue, meeting: @meeting
+      = render "issues/comments", issue: issue, meeting: @meeting, vote: vote
 
 = render "issues/propose" if @meeting.live?
